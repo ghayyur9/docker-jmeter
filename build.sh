@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 JMETER_VERSION="5.3"
 
