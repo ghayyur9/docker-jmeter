@@ -49,4 +49,4 @@ stages:
     - task: publishhtmlreport@1
       inputs:
         htmlType: 'Jmeter'
-        JmeterReportsPath: '$(Build.SourcesDirectory)/LoadReports'
+        JmeterReportsPath: '/home/vsts/work/1/s/tests/trivial/report'
