@@ -32,3 +32,8 @@ stages:
         script: sh test.sh
         workingDirectory: $(Build.SourcesDirectory)
       displayName: Run Load test
+    - task: PublishTestResults@2
+      condition: succeededOrFailed()
+      inputs:
+        testResultsFiles: '**/index.html'
+        testRunTitle: 'Publish test results'
