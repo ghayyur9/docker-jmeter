@@ -32,8 +32,9 @@ stages:
         script: sh test.sh
         workingDirectory: $(Build.SourcesDirectory)
       displayName: Run Load test
-    - task: PublishTestResults@2
-      condition: succeededOrFailed()
+
+    - task: PublishPipelineArtifact@1
+      displayName: Publish JMeter Report
       inputs:
-        testResultsFiles: '**/index.html'
-        testRunTitle: 'Publish test results'
+        targetPath: $(Build.SourcesDirectory)/**report
+        artifact: jmeter
