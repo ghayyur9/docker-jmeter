@@ -18,7 +18,7 @@ stages:
   - job: Build
     displayName: Build
     pool:
-      vmImage: 'alpine'
+      Image: 'alpine:3.12'
     steps:
     - task: Docker@2
       displayName: Build an image
