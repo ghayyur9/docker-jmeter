@@ -1,0 +1,52 @@
+# Docker
+# Build a Docker image 
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- main
+
+resources:
+- repo: self
+
+variables:
+  tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      Image: 'alpine:3.12'
+    steps:
+    - task: Docker@2
+      displayName: Build an image
+      inputs:
+        command: build
+        dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
+        tags: |
+          $(tag)
+    - task: CmdLine@2
+      inputs:
+        script: sh test.sh
+        workingDirectory: $(Build.SourcesDirectory)
+      displayName: Run Load test
+
+    - task: CmdLine@2
+      inputs: 
+        script: python $(Build.SourcesDirectory)/jtl_junit_converter.py /home/vsts/work/1/s/tests/trivial/sampletest.jtl /home/vsts/work/1/s/tests/trivial/report/Junit.xml
+        workingDirectory: $(Build.SourcesDirectory)/tests
+      displayName: Convert to Junit
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Load Test Results'
+      inputs:
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '/home/vsts/work/1/s/tests/trivial/report/Junit.xml'
+        failTaskOnFailedTests: false
+    
+    - task: publishhtmlreport@1
+      inputs:
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '/home/vsts/work/1/s/tests/trivial/report'
