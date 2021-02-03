@@ -9,7 +9,7 @@ trigger:
 jobs:
 - job: jmeter
   pool:
-    vmImage: justb4/jmeter:5.3
+    vmImage: justb4/jmeter
   displayName: Run JMeter tests
   steps:
   - task: Bash@3
