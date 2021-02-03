@@ -27,9 +27,8 @@ stages:
         dockerfile: '$(Build.SourcesDirectory)/Dockerfile'
         tags: |
           $(tag)
-    - task: Bash@3
-      displayName: Execute JMeter tests
+    - task: CmdLine@2
       inputs:
-        targetType: filePath
-        filePath: './test.sh'
-        failOnStderr: true
+        script: sh test.sh
+        workingDirectory: $(Build.SourcesDirectory)
+      displayName: Run Load test
