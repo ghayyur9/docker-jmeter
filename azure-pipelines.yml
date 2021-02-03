@@ -45,3 +45,8 @@ stages:
         testResultsFormat: 'JUnit'
         testResultsFiles: '/home/vsts/work/1/s/tests/trivial/report/Junit.xml'
         failTaskOnFailedTests: false
+    
+    - task: publishhtmlreport@1
+      inputs:
+        htmlType: 'Jmeter'
+        JmeterReportsPath: '$(Build.SourcesDirectory)/LoadReports'
