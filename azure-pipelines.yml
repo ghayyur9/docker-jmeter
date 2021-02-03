@@ -35,7 +35,7 @@ stages:
 
     - task: CmdLine@2
       inputs: 
-        script: python Junit_Converter.py **tests/trivial/sampletest.jtl **/tests/trivial/report/Junit.xml
+        script: python jtl_junit_converter.py **tests/trivial/sampletest.jtl **/tests/trivial/report/Junit.xml
         workingDirectory: $(Build.SourcesDirectory)/tests
       displayName: Convert to Junit
 
