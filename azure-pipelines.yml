@@ -33,8 +33,15 @@ stages:
         workingDirectory: $(Build.SourcesDirectory)
       displayName: Run Load test
 
-    - task: PublishPipelineArtifact@1
-      displayName: Publish JMeter Report
+    - task: CmdLine@2
+      inputs: 
+        script: python Junit_Converter.py **tests/trivial/sampletest.jtl **/tests/trivial/report/Junit.xml
+        workingDirectory: $(Build.SourcesDirectory)/tests
+      displayName: Convert to Junit
+
+    - task: PublishTestResults@2
+      displayName: 'Publish Load Test Results'
       inputs:
-        targetPath: $(Build.SourcesDirectory)/**report
-        artifact: jmeter
+        testResultsFormat: 'JUnit'
+        testResultsFiles: '**/tests/trivial/report/Junit.xml'
+        failTaskOnFailedTests: false
